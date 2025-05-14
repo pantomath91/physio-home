@@ -12,8 +12,13 @@ import {
   PhoneIcon,
   EnvelopeIcon,
   CheckCircleIcon,
+  AcademicCapIcon,
+  ShieldCheckIcon,
+  StarIcon,
+  ChartBarIcon,
 } from '@heroicons/react/24/outline';
 import BookingModal from '@/components/BookingModal';
+import Image from 'next/image';
 
 export default function Home() {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
@@ -30,22 +35,22 @@ export default function Home() {
   const services = [
     {
       name: 'Musculoskeletal Physiotherapy',
-      description: 'Treatment for joint pain, muscle injuries, and post-surgical rehabilitation',
+      description: 'Expert treatment for joint pain, muscle injuries, and post-surgical rehabilitation with personalized recovery plans',
       icon: HeartIcon,
     },
     {
       name: 'Neurological Physiotherapy',
-      description: 'Specialized care for stroke, spinal cord injuries, and neurological conditions',
+      description: 'Specialized care for stroke recovery, spinal cord injuries, and neurological conditions with advanced techniques',
       icon: UserGroupIcon,
     },
     {
       name: 'Geriatric Physiotherapy',
-      description: 'Comprehensive care for age-related conditions and mobility issues',
+      description: 'Comprehensive care for age-related conditions, focusing on mobility, balance, and independent living',
       icon: ClockIcon,
     },
     {
       name: 'Sports Injury Treatment',
-      description: 'Expert care for sports-related injuries and performance enhancement',
+      description: 'Professional care for sports-related injuries with performance enhancement and prevention strategies',
       icon: HeartIcon,
     },
   ];
@@ -70,31 +75,124 @@ export default function Home() {
 
   const benefits = [
     {
-      title: 'Expertise',
-      description: 'Our team of experienced physiotherapists',
+      title: 'Expert Care',
+      description: 'Licensed physiotherapists with years of experience in home care',
       icon: UserGroupIcon,
     },
     {
-      title: 'Convenience',
-      description: 'Visit us at your convenience',
+      title: 'Home Comfort',
+      description: 'Professional treatment in your familiar environment',
       icon: HomeIcon,
     },
     {
-      title: 'Customized Care',
-      description: 'Tailored treatments to meet your specific needs',
+      title: 'Personalized Treatment',
+      description: 'Customized care plans based on your specific needs',
       icon: HeartIcon,
     },
     {
-      title: 'Results',
-      description: 'Achieve faster recovery with our effective treatments',
+      title: 'Quick Recovery',
+      description: 'Evidence-based treatments for faster healing',
       icon: ClockIcon,
+    },
+  ];
+
+  const testimonials = [
+    {
+      name: 'Rajesh Kumar',
+      role: 'Post-Surgery Patient',
+      content: 'The home visit physiotherapy service was a blessing during my recovery. The therapist was professional and made me feel comfortable throughout the treatment.',
+      rating: 5,
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
+      date: 'March 15, 2024',
+      treatment: 'Knee Replacement Rehabilitation',
+    },
+    {
+      name: 'Priya Sharma',
+      role: 'Senior Citizen',
+      content: 'I appreciate the convenience of home visits. The physiotherapist is very knowledgeable and helped me regain my mobility significantly. The personalized care and attention to detail made all the difference.',
+      rating: 5,
+      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',
+      date: 'March 10, 2024',
+      treatment: 'Balance & Mobility Training',
+    },
+    {
+      name: 'Amit Patel',
+      role: 'Sports Injury Patient',
+      content: 'Excellent service! The personalized care and attention to detail helped me recover faster than expected from my sports injury. The home exercises were easy to follow and very effective.',
+      rating: 5,
+      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',
+      date: 'March 5, 2024',
+      treatment: 'Sports Injury Rehabilitation',
+    },
+  ];
+
+  const treatmentImages = [
+    {
+      src: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80',
+      alt: 'Physiotherapy Treatment',
+      title: 'Professional Care',
+      description: 'Expert physiotherapy in the comfort of your home',
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80',
+      alt: 'Exercise Therapy',
+      title: 'Exercise Therapy',
+      description: 'Personalized exercise programs for optimal recovery',
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80',
+      alt: 'Manual Therapy',
+      title: 'Manual Therapy',
+      description: 'Hands-on treatment for pain relief and mobility',
+    },
+  ];
+
+  const stats = [
+    { id: 1, name: 'Years of Experience', value: '10+' },
+    { id: 2, name: 'Patients Treated', value: '5000+' },
+    { id: 3, name: 'Success Rate', value: '95%' },
+    { id: 4, name: 'Qualified Therapists', value: '15+' },
+  ];
+
+  const certifications = [
+    {
+      name: 'ISO Certified',
+      description: 'Quality assured healthcare services',
+      icon: ShieldCheckIcon,
+    },
+    {
+      name: 'Licensed Professionals',
+      description: 'All therapists are state-licensed',
+      icon: AcademicCapIcon,
+    },
+    {
+      name: 'Advanced Training',
+      description: 'Regular skill enhancement programs',
+      icon: StarIcon,
+    },
+    {
+      name: 'Quality Care',
+      description: 'Patient satisfaction guaranteed',
+      icon: ChartBarIcon,
     },
   ];
 
   return (
     <div className="relative">
-      {/* Hero Section */}
+      {/* Hero Section with Background Image */}
       <div className="relative isolate overflow-hidden bg-gradient-to-b from-blue-100/20">
+        <div className="absolute inset-0 -z-10">
+          <Image
+            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1920&q=80"
+            alt="Physiotherapy Background"
+            fill
+            className="object-cover opacity-20"
+            priority
+          />
+        </div>
+        <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
+          <div className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-blue-200 to-blue-400 opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"></div>
+        </div>
         <div className="mx-auto max-w-7xl pb-24 pt-10 sm:pb-32 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-40">
           <div className="px-6 lg:px-0 lg:pt-4">
             <div className="mx-auto max-w-2xl">
@@ -103,7 +201,7 @@ export default function Home() {
                   Professional Physiotherapy at Your Doorstep
                 </h1>
                 <p className="mt-6 text-lg leading-8 text-gray-600">
-                  Experience expert physiotherapy care in the comfort of your home. Our team of qualified professionals is dedicated to your recovery and well-being.
+                  Experience expert physiotherapy care in the comfort of your home. Our team of qualified professionals brings comprehensive treatment and personalized care to you, ensuring a comfortable and effective recovery journey.
                 </p>
                 <div className="mt-10 flex items-center gap-x-6">
                   <button
@@ -112,10 +210,96 @@ export default function Home() {
                   >
                     Book Your Appointment
                   </button>
+                  <a href="#services" className="text-sm font-semibold leading-6 text-gray-900">
+                    Learn More <span aria-hidden="true">→</span>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
+          <div className="mt-16 sm:mt-24 lg:mt-0 lg:flex-shrink-0 lg:flex-grow">
+            <div className="relative mx-auto w-full max-w-sm rounded-2xl bg-white/5 p-2 ring-1 ring-white/10 lg:mx-0 lg:max-w-none">
+              <div className="absolute -inset-px rounded-2xl bg-gradient-to-r from-blue-100 to-blue-50 opacity-20 blur"></div>
+              <div className="relative rounded-2xl bg-white p-8 shadow-xl">
+                <div className="flex items-center gap-x-4">
+                  <div className="text-sm leading-6">
+                    <p className="font-semibold text-gray-900">
+                      <span className="absolute inset-0"></span>
+                      Book Your First Session
+                    </p>
+                    <p className="text-gray-600">Get 20% off on your first home visit</p>
+                  </div>
+                </div>
+                <div className="mt-6">
+                  <div className="flex items-center gap-x-4">
+                    <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center">
+                      <span className="text-white font-semibold">✓</span>
+                    </div>
+                    <div className="text-sm leading-6">
+                      <p className="font-semibold text-gray-900">Free Initial Assessment</p>
+                      <p className="text-gray-600">Comprehensive evaluation of your condition</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Treatment Images Section */}
+      <div className="bg-white py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl lg:text-center">
+            <h2 className="text-base font-semibold leading-7 text-blue-600">Our Approach</h2>
+            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              Professional Treatment Methods
+            </p>
+          </div>
+          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+            {treatmentImages.map((image) => (
+              <motion.div
+                key={image.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5 }}
+                className="flex flex-col"
+              >
+                <div className="relative h-64 w-full overflow-hidden rounded-2xl">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <h3 className="mt-6 text-lg font-semibold leading-8 text-gray-900">{image.title}</h3>
+                <p className="mt-2 text-base leading-7 text-gray-600">{image.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Section */}
+      <div className="bg-white py-12 sm:py-16">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-4">
+            {stats.map((stat) => (
+              <motion.div
+                key={stat.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5 }}
+                className="mx-auto flex max-w-xs flex-col gap-y-4"
+              >
+                <dt className="text-base leading-7 text-gray-600">{stat.name}</dt>
+                <dd className="order-first text-3xl font-semibold tracking-tight text-blue-600 sm:text-5xl">
+                  {stat.value}
+                </dd>
+              </motion.div>
+            ))}
+          </dl>
         </div>
       </div>
 
@@ -126,6 +310,9 @@ export default function Home() {
             <h2 className="text-base font-semibold leading-7 text-blue-600">Our Services</h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Comprehensive Physiotherapy Care
+            </p>
+            <p className="mt-6 text-lg leading-8 text-gray-600">
+              We offer a wide range of specialized physiotherapy services, delivered by experienced professionals in the comfort of your home.
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
@@ -152,32 +339,88 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Locations Section */}
-      <div className="bg-white py-24 sm:py-32">
+      {/* Certifications Section */}
+      <div className="bg-gray-50 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
-            <h2 className="text-base font-semibold leading-7 text-blue-600">Our Locations</h2>
+            <h2 className="text-base font-semibold leading-7 text-blue-600">Our Standards</h2>
+            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              Quality & Professionalism
+            </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-              {locations.map((location) => (
+            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-4">
+              {certifications.map((certification) => (
                 <motion.div
-                  key={location.name}
+                  key={certification.name}
                   initial={{ opacity: 0, y: 20 }}
                   animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   transition={{ duration: 0.5 }}
-                  className="flex flex-col"
+                  className="flex flex-col bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200"
                 >
                   <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                    <location.icon className="h-5 w-5 flex-none text-blue-600" aria-hidden="true" />
-                    {location.name}
+                    <certification.icon className="h-5 w-5 flex-none text-blue-600" aria-hidden="true" />
+                    {certification.name}
                   </dt>
                   <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
-                    <p className="flex-auto">{location.address}</p>
+                    <p className="flex-auto">{certification.description}</p>
                   </dd>
                 </motion.div>
               ))}
             </dl>
+          </div>
+        </div>
+      </div>
+
+      {/* Enhanced Testimonials Section */}
+      <div className="bg-white py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl lg:text-center">
+            <h2 className="text-base font-semibold leading-7 text-blue-600">Patient Success Stories</h2>
+            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              What Our Patients Say
+            </p>
+            <p className="mt-6 text-lg leading-8 text-gray-600">
+              Don't just take our word for it. Here's what our patients have to say about their experience with our home visit physiotherapy services.
+            </p>
+          </div>
+          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+            {testimonials.map((testimonial) => (
+              <motion.div
+                key={testimonial.name}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5 }}
+                className="flex flex-col justify-between bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200"
+              >
+                <div>
+                  <div className="flex items-center gap-x-4 mb-4">
+                    <div className="relative h-12 w-12 overflow-hidden rounded-full">
+                      <Image
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                      <div className="text-sm text-gray-600">{testimonial.role}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <StarIcon key={i} className="h-5 w-5 text-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-lg leading-7 text-gray-600">"{testimonial.content}"</p>
+                  <div className="mt-4 text-sm text-gray-500">
+                    <p>Treatment: {testimonial.treatment}</p>
+                    <p>Date: {testimonial.date}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
@@ -188,7 +431,10 @@ export default function Home() {
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-blue-600">About Us</h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Why Choose Us
+              Professional Home Visit Physiotherapy
+            </p>
+            <p className="mt-6 text-lg leading-8 text-gray-600">
+              We bring expert physiotherapy care directly to your doorstep. Our team of qualified professionals is dedicated to providing personalized treatment in the comfort of your home, ensuring a convenient and effective recovery journey.
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
@@ -212,16 +458,65 @@ export default function Home() {
               ))}
             </dl>
           </div>
+          <div className="mt-16 mx-auto max-w-2xl lg:max-w-none">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+              <div className="bg-blue-50 p-8 rounded-2xl">
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Why Choose Home Visit Physiotherapy?</h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                    <CheckCircleIcon className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
+                    <span className="text-gray-600">No travel required - we come to you, saving time and energy</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircleIcon className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
+                    <span className="text-gray-600">Personalized care in familiar surroundings</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircleIcon className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
+                    <span className="text-gray-600">Comprehensive assessment of your home environment</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircleIcon className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
+                    <span className="text-gray-600">Family members can be involved in the treatment process</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="bg-blue-50 p-8 rounded-2xl">
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Our Treatment Approach</h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                    <CheckCircleIcon className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
+                    <span className="text-gray-600">Detailed initial assessment and personalized treatment plan</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircleIcon className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
+                    <span className="text-gray-600">Evidence-based physiotherapy techniques</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircleIcon className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
+                    <span className="text-gray-600">Regular progress monitoring and treatment adjustments</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircleIcon className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
+                    <span className="text-gray-600">Home exercise program guidance and support</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Contact Section */}
-      <div ref={contactRef} id="contact" className="bg-white py-24 sm:py-32">
+      <div ref={contactRef} id="contact" className="bg-gray-50 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-blue-600">Contact Us</h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Get in Touch
+            </p>
+            <p className="mt-6 text-lg leading-8 text-gray-600">
+              Ready to start your recovery journey? Contact us today to schedule your first appointment or to learn more about our services.
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
