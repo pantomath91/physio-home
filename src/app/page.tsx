@@ -18,6 +18,10 @@ import {
   ChartBarIcon,
 } from '@heroicons/react/24/outline';
 import BookingModal from '@/components/BookingModal';
+import Testimonials from '@/components/Testimonials';
+import FAQ from '@/components/FAQ';
+import NewsletterSignup from '@/components/NewsletterSignup';
+import ServicePackages from '@/components/ServicePackages';
 import Image from 'next/image';
 
 export default function Home() {
@@ -93,36 +97,6 @@ export default function Home() {
       title: 'Quick Recovery',
       description: 'Evidence-based treatments for faster healing',
       icon: ClockIcon,
-    },
-  ];
-
-  const testimonials = [
-    {
-      name: 'Rajesh Kumar',
-      role: 'Post-Surgery Patient',
-      content: 'The home visit physiotherapy service was a blessing during my recovery. The therapist was professional and made me feel comfortable throughout the treatment.',
-      rating: 5,
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
-      date: 'March 15, 2024',
-      treatment: 'Knee Replacement Rehabilitation',
-    },
-    {
-      name: 'Priya Sharma',
-      role: 'Senior Citizen',
-      content: 'I appreciate the convenience of home visits. The physiotherapist is very knowledgeable and helped me regain my mobility significantly. The personalized care and attention to detail made all the difference.',
-      rating: 5,
-      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',
-      date: 'March 10, 2024',
-      treatment: 'Balance & Mobility Training',
-    },
-    {
-      name: 'Amit Patel',
-      role: 'Sports Injury Patient',
-      content: 'Excellent service! The personalized care and attention to detail helped me recover faster than expected from my sports injury. The home exercises were easy to follow and very effective.',
-      rating: 5,
-      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',
-      date: 'March 5, 2024',
-      treatment: 'Sports Injury Rehabilitation',
     },
   ];
 
@@ -384,43 +358,8 @@ export default function Home() {
               Don't just take our word for it. Here's what our patients have to say about their experience with our home visit physiotherapy services.
             </p>
           </div>
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-            {testimonials.map((testimonial) => (
-              <motion.div
-                key={testimonial.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.5 }}
-                className="flex flex-col justify-between bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200"
-              >
-                <div>
-                  <div className="flex items-center gap-x-4 mb-4">
-                    <div className="relative h-12 w-12 overflow-hidden rounded-full">
-                      <Image
-                        src={testimonial.image}
-                        alt={testimonial.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                      <div className="text-sm text-gray-600">{testimonial.role}</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <StarIcon key={i} className="h-5 w-5 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-lg leading-7 text-gray-600">"{testimonial.content}"</p>
-                  <div className="mt-4 text-sm text-gray-500">
-                    <p>Treatment: {testimonial.treatment}</p>
-                    <p>Date: {testimonial.date}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+          <div className="mt-16">
+            <Testimonials />
           </div>
         </div>
       </div>
@@ -506,6 +445,15 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* FAQ Section */}
+      <FAQ />
+
+      {/* Newsletter Signup */}
+      <NewsletterSignup />
+
+      {/* Service Packages */}
+      <ServicePackages />
 
       {/* Contact Section */}
       <div ref={contactRef} id="contact" className="bg-gray-50 py-24 sm:py-32">

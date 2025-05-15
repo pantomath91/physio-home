@@ -7,8 +7,27 @@ import Footer from "@/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Physio Home Visit",
-  description: "Professional physiotherapy services at your doorstep",
+  title: "Physio Home Visit | Professional Physiotherapy Services at Your Doorstep",
+  description: "Expert physiotherapy services delivered to your home. Professional, convenient, and personalized care for your recovery and wellness needs.",
+  keywords: "physiotherapy, home physiotherapy, mobile physiotherapy, physiotherapist, home visit physio, rehabilitation, physical therapy",
+  authors: [{ name: "Physio Home Visit" }],
+  openGraph: {
+    title: "Physio Home Visit | Professional Physiotherapy Services at Your Doorstep",
+    description: "Expert physiotherapy services delivered to your home. Professional, convenient, and personalized care for your recovery and wellness needs.",
+    type: "website",
+    locale: "en_US",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+  verification: {
+    google: "your-google-site-verification", // Replace with your actual verification code
+  },
 };
 
 export default function RootLayout({
