@@ -4,52 +4,83 @@ import { useCallback } from 'react';
 
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void;
+    dataLayer: any[];
   }
 }
 
 export const useAnalytics = () => {
-  const trackEvent = useCallback((action: string, category: string, label?: string, value?: number) => {
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', action, {
-        event_category: category,
-        event_label: label,
-        value: value,
-      });
+  const pushToDataLayer = useCallback((event: any) => {
+    if (typeof window !== 'undefined' && window.dataLayer) {
+      window.dataLayer.push(event);
     }
   }, []);
+
+  const trackEvent = useCallback((action: string, category: string, label?: string, value?: number) => {
+    pushToDataLayer({
+      event: action,
+      event_category: category,
+      event_label: label,
+      value: value,
+    });
+  }, [pushToDataLayer]);
 
   const trackPageView = useCallback((url: string) => {
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('config', 'G-XVQNLGWLTW', {
-        page_path: url,
-      });
-    }
-  }, []);
+    pushToDataLayer({
+      event: 'page_view',
+      page_path: url,
+    });
+  }, [pushToDataLayer]);
 
   const trackWhatsAppBooking = useCallback((packageType: string) => {
-    trackEvent('whatsapp_booking', 'engagement', packageType);
-  }, [trackEvent]);
+    pushToDataLayer({
+      event: 'whatsapp_booking',
+      event_category: 'engagement',
+      event_label: packageType,
+      value: 1,
+    });
+  }, [pushToDataLayer]);
 
   const trackWhatsAppQuickMessage = useCallback((messageType: string) => {
-    trackEvent('whatsapp_quick_message', 'engagement', messageType);
-  }, [trackEvent]);
+    pushToDataLayer({
+      event: 'whatsapp_quick_message',
+      event_category: 'engagement',
+      event_label: messageType,
+      value: 0.5,
+    });
+  }, [pushToDataLayer]);
 
   const trackPhoneCall = useCallback(() => {
-    trackEvent('phone_call', 'engagement', 'contact');
-  }, [trackEvent]);
+    pushToDataLayer({
+      event: 'phone_call',
+      event_category: 'engagement',
+      event_label: 'contact',
+      value: 0.5,
+    });
+  }, [pushToDataLayer]);
 
   const trackFormInteraction = useCallback((formName: string, action: string) => {
-    trackEvent(action, 'form_interaction', formName);
-  }, [trackEvent]);
+    pushToDataLayer({
+      event: action,
+      event_category: 'form_interaction',
+      event_label: formName,
+    });
+  }, [pushToDataLayer]);
 
   const trackServiceInterest = useCallback((serviceName: string) => {
-    trackEvent('service_interest', 'engagement', serviceName);
-  }, [trackEvent]);
+    pushToDataLayer({
+      event: 'service_interest',
+      event_category: 'engagement',
+      event_label: serviceName,
+    });
+  }, [pushToDataLayer]);
 
   const trackScrollDepth = useCallback((depth: number) => {
-    trackEvent('scroll_depth', 'engagement', `depth_${depth}%`);
-  }, [trackEvent]);
+    pushToDataLayer({
+      event: 'scroll_depth',
+      event_category: 'engagement',
+      event_label: `depth_${depth}%`,
+    });
+  }, [pushToDataLayer]);
 
   return {
     trackEvent,
