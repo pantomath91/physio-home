@@ -17,15 +17,14 @@ import {
   StarIcon,
   ChartBarIcon,
 } from '@heroicons/react/24/outline';
-import BookingModal from '@/components/BookingModal';
+import WhatsAppBookingModal from '@/components/WhatsAppBookingModal';
 import Testimonials from '@/components/Testimonials';
 import FAQ from '@/components/FAQ';
-import NewsletterSignup from '@/components/NewsletterSignup';
 import ServicePackages from '@/components/ServicePackages';
 import Image from 'next/image';
 
 export default function Home() {
-  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
   const servicesRef = useRef(null);
   const benefitsRef = useRef(null);
   const aboutRef = useRef(null);
@@ -102,22 +101,22 @@ export default function Home() {
 
   const treatmentImages = [
     {
-      src: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80',
+      src: '/images/physio_therapy.jpeg',
       alt: 'Physiotherapy Treatment',
       title: 'Professional Care',
       description: 'Expert physiotherapy in the comfort of your home',
     },
     {
-      src: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80',
+      src: '/images/WhatsApp Image 2025-07-06 at 2.48.22 PM.jpeg',
       alt: 'Exercise Therapy',
       title: 'Exercise Therapy',
       description: 'Personalized exercise programs for optimal recovery',
     },
     {
-      src: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80',
-      alt: 'Manual Therapy',
-      title: 'Manual Therapy',
-      description: 'Hands-on treatment for pain relief and mobility',
+      src: '/images/WhatsApp Image 2025-07-06 at 2.48.22 PM (1).jpeg',
+      alt: 'Cupping Therapy',
+      title: 'Cupping Therapy',
+      description: 'Traditional cupping treatment for pain relief and healing',
     },
   ];
 
@@ -157,7 +156,7 @@ export default function Home() {
       <div className="relative isolate overflow-hidden bg-gradient-to-b from-blue-100/20">
         <div className="absolute inset-0 -z-10">
           <Image
-            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1920&q=80"
+            src="/images/WhatsApp Image 2025-07-06 at 2.48.23 PM.jpeg"
             alt="Physiotherapy Background"
             fill
             className="object-cover opacity-20"
@@ -179,7 +178,7 @@ export default function Home() {
                 </p>
                 <div className="mt-10 flex items-center gap-x-6">
                   <button
-                    onClick={() => setIsBookingModalOpen(true)}
+                    onClick={() => setIsWhatsAppModalOpen(true)}
                     className="rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                   >
                     Book Your Appointment
@@ -199,14 +198,14 @@ export default function Home() {
                   <div className="text-sm leading-6">
                     <p className="font-semibold text-gray-900">
                       <span className="absolute inset-0"></span>
-                      Book Your First Session
+                      Start Your Recovery Journey
                     </p>
-                    <p className="text-gray-600">Get 20% off on your first home visit</p>
+                    <p className="text-gray-600">Free consultation for your first home visit</p>
                   </div>
                 </div>
                 <div className="mt-6">
                   <div className="flex items-center gap-x-4">
-                    <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center">
+                    <div className="h-10 w-10 rounded-full bg-green-600 flex items-center justify-center">
                       <span className="text-white font-semibold">✓</span>
                     </div>
                     <div className="text-sm leading-6">
@@ -217,6 +216,61 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Service Packages - Moved to top */}
+      <ServicePackages />
+
+      {/* Real Images Showcase */}
+      <div className="bg-white py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl lg:text-center">
+            <h2 className="text-base font-semibold leading-7 text-blue-600">Our Practice</h2>
+            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              Professional Physiotherapy Care
+            </p>
+            <p className="mt-6 text-lg leading-8 text-gray-600">
+              See our professional setup and equipment that we bring to your home for comprehensive physiotherapy treatment.
+            </p>
+          </div>
+          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col"
+            >
+              <div className="relative h-80 w-full overflow-hidden rounded-2xl">
+                <Image
+                  src="/images/WhatsApp Image 2025-07-06 at 2.48.22 PM (2).jpeg"
+                  alt="Physiotherapy Equipment"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="mt-6 text-lg font-semibold leading-8 text-gray-900">Professional Equipment</h3>
+              <p className="mt-2 text-base leading-7 text-gray-600">We bring all necessary equipment to your home for comprehensive treatment.</p>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="flex flex-col"
+            >
+              <div className="relative h-80 w-full overflow-hidden rounded-2xl">
+                <Image
+                  src="/images/WhatsApp Image 2025-07-06 at 2.48.23 PM (1).jpeg"
+                  alt="Treatment Session"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="mt-6 text-lg font-semibold leading-8 text-gray-900">Personalized Treatment</h3>
+              <p className="mt-2 text-base leading-7 text-gray-600">One-on-one attention in the comfort of your own home environment.</p>
+            </motion.div>
           </div>
         </div>
       </div>
@@ -449,12 +503,6 @@ export default function Home() {
       {/* FAQ Section */}
       <FAQ />
 
-      {/* Newsletter Signup */}
-      <NewsletterSignup />
-
-      {/* Service Packages */}
-      <ServicePackages />
-
       {/* Contact Section */}
       <div ref={contactRef} id="contact" className="bg-gray-50 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -464,11 +512,12 @@ export default function Home() {
               Get in Touch
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Ready to start your recovery journey? Contact us today to schedule your first appointment or to learn more about our services.
+              Ready to start your recovery journey? Contact us today to schedule your first appointment or to learn more about our services. We serve multiple locations and are available for emergency consultations.
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-            <div className="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-2">
+            <div className="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-3">
+              {/* Primary Contact Information */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={isContactInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
@@ -477,93 +526,163 @@ export default function Home() {
               >
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">Contact Information</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Primary Contact</h3>
                     <div className="mt-4 space-y-4">
                       <div className="flex items-center gap-x-3">
                         <PhoneIcon className="h-5 w-5 text-blue-600" />
-                        <span className="text-gray-600">+91 7017421438</span>
+                        <div>
+                          <span className="text-gray-900 font-medium">+91 7017421438</span>
+                          <p className="text-sm text-gray-500">Main Office</p>
+                        </div>
                       </div>
                       <div className="flex items-center gap-x-3">
                         <EnvelopeIcon className="h-5 w-5 text-blue-600" />
-                        <span className="text-gray-600">kavitajoshi2406@gmail.com</span>
-                      </div>
-                      <div className="flex items-center gap-x-3">
-                        <MapPinIcon className="h-5 w-5 text-blue-600" />
-                        <span className="text-gray-600">Bangalore, Karnataka</span>
+                        <div>
+                          <span className="text-gray-900 font-medium">kavitajoshi2406@gmail.com</span>
+                          <p className="text-sm text-gray-500">Email Support</p>
+                        </div>
                       </div>
                       <div className="flex items-center gap-x-3">
                         <ClockIcon className="h-5 w-5 text-blue-600" />
-                        <span className="text-gray-600">Mon-Sat: 9:00 AM - 7:00 PM</span>
+                        <div>
+                          <span className="text-gray-900 font-medium">Mon-Sat: 9:00 AM - 7:00 PM</span>
+                          <p className="text-sm text-gray-500">Sunday: Emergency Only</p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </motion.div>
 
+              {/* Service Locations */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isContactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-200"
+              >
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Service Locations</h3>
+                    <div className="mt-4 space-y-4">
+                      <div className="border-l-4 border-blue-600 pl-4">
+                        <h4 className="font-medium text-gray-900">Bangalore</h4>
+                        <p className="text-sm text-gray-600">Koramangala, Bangalore - 560034</p>
+                        <p className="text-xs text-gray-500">Primary Service Area</p>
+                      </div>
+                      <div className="border-l-4 border-green-600 pl-4">
+                        <h4 className="font-medium text-gray-900">Haldwani</h4>
+                        <p className="text-sm text-gray-600">Kathgodam, Haldwani - 263139</p>
+                        <p className="text-xs text-gray-500">Uttarakhand Region</p>
+                      </div>
+                      <div className="border-l-4 border-purple-600 pl-4">
+                        <h4 className="font-medium text-gray-900">Ramnagar</h4>
+                        <p className="text-sm text-gray-600">Ramnagar, Uttarakhand - 244715</p>
+                        <p className="text-xs text-gray-500">Extended Service Area</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Emergency & Booking */}
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={isContactInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
                 className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-200"
               >
-                <form className="space-y-6">
+                <div className="space-y-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                      Name
-                    </label>
-                    <div className="mt-2">
-                      <input
-                        type="text"
-                        name="name"
-                        id="name"
-                        className="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
-                      />
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Book Your Appointment</h3>
+                    <p className="text-gray-600 mb-6">
+                      Ready to start your recovery journey? Book your appointment through WhatsApp for quick and easy scheduling.
+                    </p>
+                    <div className="space-y-4">
+                      <button
+                        onClick={() => setIsWhatsAppModalOpen(true)}
+                        className="w-full rounded-lg bg-green-600 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 transition-colors flex items-center justify-center gap-2"
+                      >
+                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                        </svg>
+                        Book via WhatsApp
+                      </button>
+                      
+                      <div className="text-center">
+                        <p className="text-sm text-gray-500">Or call us directly:</p>
+                        <a 
+                          href="tel:+917017421438" 
+                          className="text-blue-600 hover:text-blue-500 font-semibold text-lg"
+                        >
+                          +91 7017421438
+                        </a>
+                      </div>
                     </div>
                   </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Additional Information */}
+            <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-2">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isContactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="bg-blue-50 p-8 rounded-2xl"
+              >
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">What to Expect</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3">
+                    <CheckCircleIcon className="h-5 w-5 text-blue-600 flex-shrink-0 mt-1" />
+                    <span className="text-gray-600">Free initial consultation and assessment</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircleIcon className="h-5 w-5 text-blue-600 flex-shrink-0 mt-1" />
+                    <span className="text-gray-600">Same-day appointment availability</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircleIcon className="h-5 w-5 text-blue-600 flex-shrink-0 mt-1" />
+                    <span className="text-gray-600">Emergency consultation on Sundays</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircleIcon className="h-5 w-5 text-blue-600 flex-shrink-0 mt-1" />
+                    <span className="text-gray-600">Flexible scheduling to suit your needs</span>
+                  </li>
+                </ul>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isContactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="bg-green-50 p-8 rounded-2xl"
+              >
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Service Areas</h3>
+                <div className="space-y-3">
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                      Email
-                    </label>
-                    <div className="mt-2">
-                      <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        className="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
-                      />
-                    </div>
+                    <h4 className="font-medium text-gray-900">Primary Coverage</h4>
+                    <p className="text-sm text-gray-600">Bangalore (Koramangala, Indiranagar, HSR Layout, Whitefield)</p>
                   </div>
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                      Message
-                    </label>
-                    <div className="mt-2">
-                      <textarea
-                        name="message"
-                        id="message"
-                        rows={4}
-                        className="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
-                      />
-                    </div>
+                    <h4 className="font-medium text-gray-900">Uttarakhand Region</h4>
+                    <p className="text-sm text-gray-600">Haldwani, Ramnagar, Nainital, Rudrapur</p>
                   </div>
                   <div>
-                    <button
-                      type="submit"
-                      className="rounded-md bg-blue-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                    >
-                      Send Message
-                    </button>
+                    <h4 className="font-medium text-gray-900">Extended Services</h4>
+                    <p className="text-sm text-gray-600">Corporate visits, elderly care, post-surgery rehabilitation</p>
                   </div>
-                </form>
+                </div>
               </motion.div>
             </div>
           </div>
         </div>
       </div>
 
-      <BookingModal
-        isOpen={isBookingModalOpen}
-        onClose={() => setIsBookingModalOpen(false)}
+      <WhatsAppBookingModal
+        isOpen={isWhatsAppModalOpen}
+        onClose={() => setIsWhatsAppModalOpen(false)}
       />
     </div>
   );

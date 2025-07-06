@@ -1,12 +1,11 @@
 import React from 'react';
-import Image from 'next/image';
 
 interface Testimonial {
   id: number;
   name: string;
   role: string;
   content: string;
-  image: string;
+  initials: string;
   rating: number;
 }
 
@@ -16,7 +15,7 @@ const testimonials: Testimonial[] = [
     name: "Priya Sharma",
     role: "Post-surgery Recovery",
     content: "The home physiotherapy service was exceptional. The therapist was professional, knowledgeable, and made my recovery process much more comfortable. Highly recommended!",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80",
+    initials: "PS",
     rating: 5
   },
   {
@@ -24,7 +23,7 @@ const testimonials: Testimonial[] = [
     name: "Rajesh Kumar",
     role: "Sports Injury",
     content: "Convenient and effective! The physiotherapist came to my home with all necessary equipment. The personalized care and attention made a huge difference in my recovery.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
+    initials: "RK",
     rating: 5
   },
   {
@@ -32,7 +31,7 @@ const testimonials: Testimonial[] = [
     name: "Ananya Patel",
     role: "Chronic Pain Management",
     content: "I've been struggling with chronic back pain for years. The home physiotherapy sessions have been life-changing. The convenience of having treatment at home is invaluable.",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80",
+    initials: "AP",
     rating: 5
   }
 ];
@@ -47,13 +46,10 @@ const Testimonials: React.FC = () => {
             className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300"
           >
             <div className="flex items-center mb-4">
-              <div className="relative h-12 w-12 rounded-full overflow-hidden">
-                <Image
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  fill
-                  className="object-cover"
-                />
+              <div className="h-12 w-12 rounded-full bg-gradient-to-r from-blue-600 to-teal-600 flex items-center justify-center">
+                <span className="text-white font-semibold text-lg">
+                  {testimonial.initials}
+                </span>
               </div>
               <div className="ml-4">
                 <h3 className="text-lg font-semibold text-gray-900">
