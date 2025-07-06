@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChatBubbleLeftRightIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface WhatsAppButtonProps {
   phoneNumber?: string;
@@ -18,6 +19,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   className = "",
   showQuickMessages = true
 }) => {
+  const { trackWhatsAppBooking, trackWhatsAppQuickMessage, trackFormInteraction } = useAnalytics();
   const [internalIsExpanded, setIsInternalExpanded] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [showQuickMessagesModal, setShowQuickMessagesModal] = useState(false);
@@ -72,6 +74,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappUrl, '_blank');
     setShowBookingForm(false);
+    trackWhatsAppBooking(bookingData.package || 'unknown');
     // Reset form
     setBookingData({
       name: '',
@@ -88,6 +91,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(whatsappUrl, '_blank');
     setShowQuickMessagesModal(false);
+    trackWhatsAppQuickMessage(message.substring(0, 50)); // Track first 50 chars of message
   };
 
   const toggleExpanded = () => {
@@ -302,7 +306,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
                   aria-label="Quick Messages"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+                    <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
                   </svg>
                 </button>
               )}

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import {
   UserGroupIcon,
   ClockIcon,
@@ -22,8 +22,10 @@ import Testimonials from '@/components/Testimonials';
 import FAQ from '@/components/FAQ';
 import ServicePackages from '@/components/ServicePackages';
 import Image from 'next/image';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 export default function Home() {
+  const { trackPageView, trackScrollDepth, trackServiceInterest, trackPhoneCall } = useAnalytics();
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
   const servicesRef = useRef(null);
   const benefitsRef = useRef(null);
@@ -149,6 +151,34 @@ export default function Home() {
       icon: ChartBarIcon,
     },
   ];
+
+  // Track page view on mount
+  useEffect(() => {
+    trackPageView('/');
+  }, [trackPageView]);
+
+  // Track scroll depth
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = Math.round((scrollTop / docHeight) * 100);
+      
+      // Track at 25%, 50%, 75%, and 100% scroll points
+      if (scrollPercent >= 25 && scrollPercent < 50) {
+        trackScrollDepth(25);
+      } else if (scrollPercent >= 50 && scrollPercent < 75) {
+        trackScrollDepth(50);
+      } else if (scrollPercent >= 75 && scrollPercent < 100) {
+        trackScrollDepth(75);
+      } else if (scrollPercent >= 100) {
+        trackScrollDepth(100);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [trackScrollDepth]);
 
   return (
     <div className="relative">

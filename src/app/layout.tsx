@@ -4,6 +4,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,6 +39,21 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning>
+      <head>
+        {/* Google Analytics 4 */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-XVQNLGWLTW"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-XVQNLGWLTW');
+          `}
+        </Script>
+      </head>
       <body className={`${inter.className} antialiased bg-gradient-to-br from-slate-50 via-white to-blue-50 min-h-screen`} suppressHydrationWarning>
         <div className="relative">
           {/* Background decorative elements */}
