@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CheckIcon, StarIcon } from '@heroicons/react/24/outline';
 import WhatsAppBookingModal from './WhatsAppBookingModal';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface Package {
   name: string;
@@ -58,8 +59,15 @@ const packages: Package[] = [
 const ServicePackages: React.FC = () => {
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
+  const { trackBooking } = useAnalytics();
 
   const handleBookNow = (pkg: Package) => {
+    // Track intent to book
+    trackBooking({
+      source: 'ServicePackagesButton',
+      packageName: pkg.name,
+      action: 'open_booking_modal',
+    });
     setSelectedPackage(pkg);
     setIsWhatsAppModalOpen(true);
   };

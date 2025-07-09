@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface WhatsAppBookingModalProps {
   isOpen: boolean;
@@ -61,12 +62,23 @@ const WhatsAppBookingModal: React.FC<WhatsAppBookingModalProps> = ({
     return encodeURIComponent(baseMessage + detailsText);
   };
 
+  const { trackBooking } = useAnalytics();
+
   const handleWhatsAppClick = () => {
     if (!isFormValid) return;
     
     const message = generateWhatsAppMessage();
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappUrl, '_blank');
+    // Track booking event in Google Analytics
+    trackBooking({
+      source: 'WhatsAppBookingModal',
+      name: bookingData.name,
+      phone: bookingData.phone,
+      packageName: bookingData.package,
+      date: bookingData.date,
+      time: bookingData.time,
+    });
     onClose();
     // Reset form
     setBookingData({

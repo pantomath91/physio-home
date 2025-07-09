@@ -19,7 +19,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   className = "",
   showQuickMessages = true
 }) => {
-  const { trackWhatsAppBooking, trackWhatsAppQuickMessage, trackFormInteraction } = useAnalytics();
+  const { trackBooking, trackFormInteraction } = useAnalytics();
   const [internalIsExpanded, setIsInternalExpanded] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [showQuickMessagesModal, setShowQuickMessagesModal] = useState(false);
@@ -74,7 +74,15 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappUrl, '_blank');
     setShowBookingForm(false);
-    trackWhatsAppBooking(bookingData.package || 'unknown');
+    trackBooking({
+      source: 'WhatsAppButton',
+      name: bookingData.name,
+      phone: bookingData.phone,
+      packageName: bookingData.package,
+      date: bookingData.date,
+      time: bookingData.time,
+      message: bookingData.message,
+    });
     // Reset form
     setBookingData({
       name: '',
@@ -91,7 +99,11 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(whatsappUrl, '_blank');
     setShowQuickMessagesModal(false);
-    trackWhatsAppQuickMessage(message.substring(0, 50)); // Track first 50 chars of message
+    trackBooking({
+      source: 'WhatsAppButtonQuickMessage',
+      message,
+      phone: bookingData.phone,
+    });
   };
 
   const toggleExpanded = () => {

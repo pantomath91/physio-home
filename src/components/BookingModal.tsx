@@ -3,6 +3,7 @@
 import React, { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface Package {
   name: string;
@@ -33,6 +34,8 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, selectedPa
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const { trackBooking } = useAnalytics();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -54,6 +57,14 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, selectedPa
       const data = await response.json();
 
       if (response.ok) {
+        // Track booking event in Google Analytics
+        trackBooking({
+          source: 'BookingModal',
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          packageName: selectedPackage?.name,
+        });
         setSubmitStatus('success');
         setFormData({
           name: '',

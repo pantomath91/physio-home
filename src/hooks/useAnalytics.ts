@@ -31,24 +31,6 @@ export const useAnalytics = () => {
     });
   }, [pushToDataLayer]);
 
-  const trackWhatsAppBooking = useCallback((packageType: string) => {
-    pushToDataLayer({
-      event: 'whatsapp_booking',
-      event_category: 'engagement',
-      event_label: packageType,
-      value: 1,
-    });
-  }, [pushToDataLayer]);
-
-  const trackWhatsAppQuickMessage = useCallback((messageType: string) => {
-    pushToDataLayer({
-      event: 'whatsapp_quick_message',
-      event_category: 'engagement',
-      event_label: messageType,
-      value: 0.5,
-    });
-  }, [pushToDataLayer]);
-
   const trackPhoneCall = useCallback(() => {
     pushToDataLayer({
       event: 'phone_call',
@@ -82,14 +64,34 @@ export const useAnalytics = () => {
     });
   }, [pushToDataLayer]);
 
+  // Track a booking event with custom details
+  const trackBooking = useCallback((details: {
+    source: string;
+    name?: string;
+    phone?: string;
+    email?: string;
+    packageName?: string;
+    [key: string]: any;
+  }) => {
+    pushToDataLayer({
+      event: 'booking_submit',
+      event_category: 'booking',
+      event_label: details.source,
+      user_name: details.name,
+      user_phone: details.phone,
+      user_email: details.email,
+      package: details.packageName,
+      ...details,
+    });
+  }, [pushToDataLayer]);
+
   return {
     trackEvent,
     trackPageView,
-    trackWhatsAppBooking,
-    trackWhatsAppQuickMessage,
     trackPhoneCall,
     trackFormInteraction,
     trackServiceInterest,
     trackScrollDepth,
+    trackBooking,
   };
 }; 
