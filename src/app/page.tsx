@@ -103,19 +103,19 @@ export default function Home() {
 
   const treatmentImages = [
     {
-      src: '/images/physio_therapy.jpeg',
+      src: '/images/Physiotherapy (1).webp',
       alt: 'Physiotherapy Treatment',
       title: 'Professional Care',
       description: 'Expert physiotherapy in the comfort of your home',
     },
     {
-      src: '/images/WhatsApp Image 2025-07-06 at 2.48.22 PM.jpeg',
+      src: '/images/Physiotherapy (2).webp',
       alt: 'Exercise Therapy',
       title: 'Exercise Therapy',
       description: 'Personalized exercise programs for optimal recovery',
     },
     {
-      src: '/images/WhatsApp Image 2025-07-06 at 2.48.22 PM (1).jpeg',
+      src: '/images/Physiotherapy (3).webp',
       alt: 'Cupping Therapy',
       title: 'Cupping Therapy',
       description: 'Traditional cupping treatment for pain relief and healing',
@@ -186,7 +186,7 @@ export default function Home() {
       <div className="relative isolate overflow-hidden bg-gradient-to-b from-blue-100/20">
         <div className="absolute inset-0 -z-10">
           <Image
-            src="/images/WhatsApp Image 2025-07-06 at 2.48.23 PM.jpeg"
+            src="/images/Physiotherapy (1).webp"
             alt="Physiotherapy Background"
             fill
             className="object-cover opacity-20"
@@ -274,7 +274,7 @@ export default function Home() {
             >
               <div className="relative h-80 w-full overflow-hidden rounded-2xl">
                 <Image
-                  src="/images/WhatsApp Image 2025-07-06 at 2.48.22 PM (2).jpeg"
+                  src="/images/Physiotherapy (2).webp"
                   alt="Physiotherapy Equipment"
                   fill
                   className="object-cover"
@@ -292,7 +292,7 @@ export default function Home() {
             >
               <div className="relative h-80 w-full overflow-hidden rounded-2xl">
                 <Image
-                  src="/images/WhatsApp Image 2025-07-06 at 2.48.23 PM (1).jpeg"
+                  src="/images/Physiotherapy (3).webp"
                   alt="Treatment Session"
                   fill
                   className="object-cover"
