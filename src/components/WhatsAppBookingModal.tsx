@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
@@ -16,11 +16,12 @@ interface WhatsAppBookingModalProps {
   phoneNumber?: string;
 }
 
-const WhatsAppBookingModal: React.FC<WhatsAppBookingModalProps> = ({
+const WhatsAppBookingModal: React.FC<WhatsAppBookingModalProps & { onOpen?: () => void }> = ({
   isOpen,
   onClose,
   selectedPackage,
-  phoneNumber = "917017421438"
+  phoneNumber = "917017421438",
+  onOpen
 }) => {
   const [bookingData, setBookingData] = useState({
     name: '',
@@ -62,7 +63,11 @@ const WhatsAppBookingModal: React.FC<WhatsAppBookingModalProps> = ({
     return encodeURIComponent(baseMessage + detailsText);
   };
 
-  const { trackBooking } = useAnalytics();
+  const { trackBooking, trackEvent } = useAnalytics();
+
+  useEffect(() => {
+    if (isOpen && onOpen) onOpen();
+  }, [isOpen, onOpen]);
 
   const handleWhatsAppClick = () => {
     if (!isFormValid) return;
@@ -262,10 +267,23 @@ const WhatsAppBookingModal: React.FC<WhatsAppBookingModalProps> = ({
                     </svg>
                     {isFormValid ? 'Send via WhatsApp' : 'Fill all required fields'}
                   </button>
+                  <a
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSe6RDgMOUh7OfTv07qcYVT6pitgH-qZ7LI_nJu_gBCVO8xNKg/viewform?usp=header"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex w-full justify-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-blue-600 shadow-sm ring-1 ring-inset ring-blue-300 hover:bg-blue-50 sm:mt-0 sm:w-auto text-center border border-blue-200"
+                    style={{ textDecoration: 'none' }}
+                    onClick={() => trackEvent('form_fallback_click', 'booking', 'WhatsAppBookingModal')}
+                  >
+                    No WhatsApp? Book via Google Form
+                  </a>
                   <button
                     type="button"
                     className="mt-3 inline-flex w-full justify-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                    onClick={onClose}
+                    onClick={() => {
+                      trackEvent('booking_cancel', 'booking', 'WhatsAppBookingModal');
+                      onClose();
+                    }}
                   >
                     Cancel
                   </button>

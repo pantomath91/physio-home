@@ -19,7 +19,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   className = "",
   showQuickMessages = true
 }) => {
-  const { trackBooking, trackFormInteraction } = useAnalytics();
+  const { trackBooking, trackFormInteraction, trackEvent } = useAnalytics();
   const [internalIsExpanded, setIsInternalExpanded] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [showQuickMessagesModal, setShowQuickMessagesModal] = useState(false);
@@ -111,6 +111,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   };
 
   const openBookingForm = () => {
+    trackEvent('booking_modal_open', 'booking', 'WhatsAppButton');
     setShowBookingForm(true);
     setShowQuickMessagesModal(false);
   };
@@ -129,8 +130,12 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
             <div className="bg-green-500 text-white p-4 rounded-t-2xl flex justify-between items-center sticky top-0">
               <h3 className="font-semibold text-lg">Book Appointment</h3>
               <button
-                onClick={() => setShowBookingForm(false)}
+                type="button"
                 className="text-white hover:text-gray-200 transition-colors"
+                onClick={() => {
+                  trackEvent('booking_cancel', 'booking', 'WhatsAppButton');
+                  setShowBookingForm(false);
+                }}
               >
                 <XMarkIcon className="h-6 w-6" />
               </button>
@@ -253,6 +258,16 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
                 </svg>
                 {isFormValid ? 'Send Booking Request' : 'Fill all required fields'}
               </button>
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSe6RDgMOUh7OfTv07qcYVT6pitgH-qZ7LI_nJu_gBCVO8xNKg/viewform?usp=header"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full mt-3 py-3 px-4 rounded-lg font-semibold text-blue-600 bg-white border border-blue-200 shadow-sm hover:bg-blue-50 transition-colors flex items-center justify-center gap-2 text-sm text-center"
+                style={{ textDecoration: 'none' }}
+                onClick={() => trackEvent('form_fallback_click', 'booking', 'WhatsAppButton')}
+              >
+                No WhatsApp? Book via Google Form
+              </a>
             </div>
           </div>
         </div>
@@ -325,7 +340,10 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
               
               {/* Booking Form Button */}
               <button
-                onClick={openBookingForm}
+                onClick={() => {
+                  trackEvent('booking_intent', 'booking', 'WhatsAppButton');
+                  openBookingForm();
+                }}
                 className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
                 aria-label="Book Appointment"
               >

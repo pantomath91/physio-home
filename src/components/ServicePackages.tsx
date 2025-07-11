@@ -59,9 +59,10 @@ const packages: Package[] = [
 const ServicePackages: React.FC = () => {
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
-  const { trackBooking } = useAnalytics();
+  const { trackBooking, trackEvent } = useAnalytics();
 
   const handleBookNow = (pkg: Package) => {
+    trackEvent('booking_intent', 'booking', 'ServicePackages');
     // Track intent to book
     trackBooking({
       source: 'ServicePackagesButton',
@@ -105,6 +106,19 @@ const ServicePackages: React.FC = () => {
               </button>
             </div>
           </div>
+        </div>
+
+        <div className="text-center mt-6">
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSe6RDgMOUh7OfTv07qcYVT6pitgH-qZ7LI_nJu_gBCVO8xNKg/viewform?usp=header"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block rounded-lg bg-white px-6 py-3 text-base font-semibold text-blue-600 shadow-sm ring-1 ring-inset ring-blue-300 hover:bg-blue-50 border border-blue-200 transition-colors mt-2"
+            style={{ textDecoration: 'none' }}
+            onClick={() => trackEvent('form_fallback_click', 'booking', 'ServicePackages')}
+          >
+            No WhatsApp? Book via Google Form
+          </a>
         </div>
 
         <div className="mt-12 max-w-6xl mx-auto grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -194,7 +208,11 @@ const ServicePackages: React.FC = () => {
 
       <WhatsAppBookingModal
         isOpen={isWhatsAppModalOpen}
-        onClose={() => setIsWhatsAppModalOpen(false)}
+        onClose={() => {
+          trackEvent('booking_cancel', 'booking', 'ServicePackages');
+          setIsWhatsAppModalOpen(false);
+        }}
+        onOpen={() => trackEvent('booking_modal_open', 'booking', 'ServicePackages')}
         selectedPackage={selectedPackage ? { name: selectedPackage.name, price: selectedPackage.price } : undefined}
       />
     </section>
