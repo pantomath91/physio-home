@@ -152,6 +152,38 @@ export default function Home() {
     },
   ];
 
+  // For Professional Physiotherapy Care section
+  const professionalCareImages = [
+    {
+      src: '/images/Physiotherapy (1).webp',
+      alt: 'Physiotherapy Treatment 1',
+    },
+    {
+      src: '/images/Physiotherapy (2).webp',
+      alt: 'Physiotherapy Treatment 2',
+    },
+    {
+      src: '/images/Physiotherapy (3).webp',
+      alt: 'Physiotherapy Treatment 3',
+    },
+  ];
+
+  // For Professional Treatment Methods section
+  const professionalTreatmentImages = [
+    {
+      src: '/images/Physiotherapy (4).webp',
+      alt: 'Professional Treatment Method 4',
+    },
+    {
+      src: '/images/Physiotherapy (5).webp',
+      alt: 'Professional Treatment Method 5',
+    },
+    {
+      src: '/images/Physiotherapy (6).webp',
+      alt: 'Professional Treatment Method 6',
+    },
+  ];
+
   // Track page view on mount
   useEffect(() => {
     trackPageView('/');
@@ -265,42 +297,25 @@ export default function Home() {
               See our professional setup and equipment that we bring to your home for comprehensive physiotherapy treatment.
             </p>
           </div>
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.5 }}
-              className="flex flex-col"
-            >
-              <div className="relative h-80 w-full overflow-hidden rounded-2xl">
-                <Image
-                  src="/images/Physiotherapy (2).webp"
-                  alt="Physiotherapy Equipment"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <h3 className="mt-6 text-lg font-semibold leading-8 text-gray-900">Professional Equipment</h3>
-              <p className="mt-2 text-base leading-7 text-gray-600">We bring all necessary equipment to your home for comprehensive treatment.</p>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="flex flex-col"
-            >
-              <div className="relative h-80 w-full overflow-hidden rounded-2xl">
-                <Image
-                  src="/images/Physiotherapy (3).webp"
-                  alt="Treatment Session"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <h3 className="mt-6 text-lg font-semibold leading-8 text-gray-900">Personalized Treatment</h3>
-              <p className="mt-2 text-base leading-7 text-gray-600">One-on-one attention in the comfort of your own home environment.</p>
-            </motion.div>
+          <div className="mx-auto mt-16 flex flex-row gap-x-16 max-w-4xl lg:mx-0 lg:max-w-none justify-center">
+            {professionalCareImages.map((image) => (
+              <motion.div
+                key={image.src}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5 }}
+                className="flex flex-col p-2"
+              >
+                <div className="relative h-80 w-80 overflow-hidden rounded-2xl">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
@@ -314,16 +329,16 @@ export default function Home() {
               Professional Treatment Methods
             </p>
           </div>
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-            {treatmentImages.map((image) => (
+          <div className="mx-auto mt-16 flex flex-row gap-x-16 max-w-4xl lg:mx-0 lg:max-w-none justify-center">
+            {professionalTreatmentImages.map((image) => (
               <motion.div
-                key={image.title}
+                key={image.src}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.5 }}
-                className="flex flex-col"
+                className="flex flex-col p-2"
               >
-                <div className="relative h-64 w-full overflow-hidden rounded-2xl">
+                <div className="relative h-80 w-80 overflow-hidden rounded-2xl">
                   <Image
                     src={image.src}
                     alt={image.alt}
@@ -331,8 +346,6 @@ export default function Home() {
                     className="object-cover"
                   />
                 </div>
-                <h3 className="mt-6 text-lg font-semibold leading-8 text-gray-900">{image.title}</h3>
-                <p className="mt-2 text-base leading-7 text-gray-600">{image.description}</p>
               </motion.div>
             ))}
           </div>
