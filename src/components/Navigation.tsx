@@ -19,7 +19,7 @@ export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { trackEvent } = useAnalytics();
+  const { trackWhatsAppOpened, trackFormOpened, trackBookingAbandoned } = useAnalytics();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -69,7 +69,7 @@ export default function Navigation() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <button
             onClick={() => {
-              trackEvent('booking_intent', 'booking', 'Navigation');
+              trackWhatsAppOpened('header_button');
               setIsWhatsAppModalOpen(true);
             }}
             className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-colors"
@@ -82,7 +82,7 @@ export default function Navigation() {
             rel="noopener noreferrer"
             className="ml-4 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-blue-600 shadow-sm ring-1 ring-inset ring-blue-300 hover:bg-blue-50 border border-blue-200 transition-colors"
             style={{ textDecoration: 'none' }}
-            onClick={() => trackEvent('form_fallback_click', 'booking', 'Navigation')}
+            onClick={() => trackFormOpened('header_button')}
           >
             No WhatsApp? Book via Google Form
           </a>
@@ -127,7 +127,7 @@ export default function Navigation() {
               <div className="py-6">
                 <button
                   onClick={() => {
-                    trackEvent('booking_intent', 'booking', 'Navigation');
+                    trackWhatsAppOpened('header_button');
                     setIsWhatsAppModalOpen(true);
                     setMobileMenuOpen(false);
                   }}
@@ -141,7 +141,7 @@ export default function Navigation() {
                   rel="noopener noreferrer"
                   className="mt-2 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-blue-600 bg-white shadow-sm ring-1 ring-inset ring-blue-300 hover:bg-blue-50 border border-blue-200 text-left"
                   style={{ textDecoration: 'none' }}
-                  onClick={() => trackEvent('form_fallback_click', 'booking', 'Navigation')}
+                  onClick={() => trackFormOpened('header_button')}
                 >
                   No WhatsApp? Book via Google Form
                 </a>
@@ -154,10 +154,9 @@ export default function Navigation() {
       <WhatsAppBookingModal
         isOpen={isWhatsAppModalOpen}
         onClose={() => {
-          trackEvent('booking_cancel', 'booking', 'Navigation');
+          trackBookingAbandoned('header_button', 'modal_close');
           setIsWhatsAppModalOpen(false);
         }}
-        onOpen={() => trackEvent('booking_modal_open', 'booking', 'Navigation')}
       />
     </header>
   );

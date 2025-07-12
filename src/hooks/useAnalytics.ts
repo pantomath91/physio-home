@@ -15,57 +15,76 @@ export const useAnalytics = () => {
     }
   }, []);
 
-  const trackEvent = useCallback((action: string, category: string, label?: string, value?: number) => {
+  // Simplified event tracking
+  const trackEvent = useCallback((eventName: string, category: string, source?: string, additionalData?: any) => {
     pushToDataLayer({
-      event: action,
+      event: eventName,
       event_category: category,
-      event_label: label,
-      value: value,
+      source_location: source,
+      ...additionalData,
     });
   }, [pushToDataLayer]);
 
-  const trackPageView = useCallback((url: string) => {
+  // User landed on website
+  const trackUserLanded = useCallback((page: string, source?: string) => {
     pushToDataLayer({
-      event: 'page_view',
-      page_path: url,
+      event: 'user_landed',
+      event_category: 'user_action',
+      page_path: page,
+      traffic_source: source,
     });
   }, [pushToDataLayer]);
 
-  const trackPhoneCall = useCallback(() => {
+  // User showed interest in service
+  const trackServiceInterest = useCallback((serviceName: string, location: string) => {
     pushToDataLayer({
-      event: 'phone_call',
-      event_category: 'engagement',
-      event_label: 'contact',
-      value: 0.5,
+      event: 'user_interested_service',
+      event_category: 'user_action',
+      service_name: serviceName,
+      source_location: location,
     });
   }, [pushToDataLayer]);
 
-  const trackFormInteraction = useCallback((formName: string, action: string) => {
+  // User clicked phone number
+  const trackPhoneClick = useCallback((location: string) => {
     pushToDataLayer({
-      event: action,
-      event_category: 'form_interaction',
-      event_label: formName,
+      event: 'contact_phone_clicked',
+      event_category: 'contact',
+      source_location: location,
+      value: 1, // High intent action
     });
   }, [pushToDataLayer]);
 
-  const trackServiceInterest = useCallback((serviceName: string) => {
+  // User opened WhatsApp form
+  const trackWhatsAppOpened = useCallback((source: string) => {
     pushToDataLayer({
-      event: 'service_interest',
-      event_category: 'engagement',
-      event_label: serviceName,
+      event: 'contact_whatsapp_opened',
+      event_category: 'contact',
+      source_location: source,
     });
   }, [pushToDataLayer]);
 
-  const trackScrollDepth = useCallback((depth: number) => {
+  // User opened Google Form fallback
+  const trackFormOpened = useCallback((source: string) => {
     pushToDataLayer({
-      event: 'scroll_depth',
-      event_category: 'engagement',
-      event_label: `depth_${depth}%`,
+      event: 'contact_form_opened',
+      event_category: 'contact',
+      source_location: source,
     });
   }, [pushToDataLayer]);
 
-  // Track a booking event with custom details
-  const trackBooking = useCallback((details: {
+  // User started booking process
+  const trackBookingStarted = useCallback((source: string, packageName?: string) => {
+    pushToDataLayer({
+      event: 'conversion_booking_started',
+      event_category: 'conversion',
+      source_location: source,
+      package: packageName,
+    });
+  }, [pushToDataLayer]);
+
+  // User completed booking (MAIN CONVERSION)
+  const trackBookingCompleted = useCallback((details: {
     source: string;
     name?: string;
     phone?: string;
@@ -74,24 +93,54 @@ export const useAnalytics = () => {
     [key: string]: any;
   }) => {
     pushToDataLayer({
-      event: 'booking_submit',
-      event_category: 'booking',
-      event_label: details.source,
+      event: 'conversion_booking_completed',
+      event_category: 'conversion',
+      source_location: details.source,
       user_name: details.name,
       user_phone: details.phone,
       user_email: details.email,
       package: details.packageName,
+      value: 50, // Assign monetary value for conversion
       ...details,
     });
   }, [pushToDataLayer]);
 
+  // User abandoned booking process
+  const trackBookingAbandoned = useCallback((source: string, step: string) => {
+    pushToDataLayer({
+      event: 'conversion_booking_abandoned',
+      event_category: 'conversion',
+      source_location: source,
+      abandonment_step: step,
+    });
+  }, [pushToDataLayer]);
+
+  // Track form interactions (when user starts filling)
+  const trackFormInteraction = useCallback((formType: string, fieldName: string, source: string, formData?: any) => {
+    pushToDataLayer({
+      event: 'form_interaction',
+      event_category: 'form',
+      form_type: formType,
+      field_name: fieldName,
+      source_location: source,
+      form_progress: formData ? Object.keys(formData).filter(key => formData[key] && formData[key].trim() !== '').length : 1,
+      ...formData,
+    });
+  }, [pushToDataLayer]);
+
   return {
-    trackEvent,
-    trackPageView,
-    trackPhoneCall,
-    trackFormInteraction,
+    // New simplified methods
+    trackUserLanded,
     trackServiceInterest,
-    trackScrollDepth,
-    trackBooking,
+    trackPhoneClick,
+    trackWhatsAppOpened,
+    trackFormOpened,
+    trackBookingStarted,
+    trackBookingCompleted,
+    trackBookingAbandoned,
+    trackFormInteraction,
+    
+    // Keep generic trackEvent for custom needs
+    trackEvent,
   };
 }; 

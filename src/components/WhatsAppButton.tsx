@@ -19,7 +19,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   className = "",
   showQuickMessages = true
 }) => {
-  const { trackBooking, trackFormInteraction, trackEvent } = useAnalytics();
+  const { trackBookingCompleted, trackFormOpened, trackWhatsAppOpened, trackBookingAbandoned } = useAnalytics();
   const [internalIsExpanded, setIsInternalExpanded] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [showQuickMessagesModal, setShowQuickMessagesModal] = useState(false);
@@ -74,14 +74,26 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappUrl, '_blank');
     setShowBookingForm(false);
-    trackBooking({
-      source: 'WhatsAppButton',
+    // Track booking completion with all form data
+    trackBookingCompleted({
+      source: 'whatsapp_widget',
       name: bookingData.name,
       phone: bookingData.phone,
+      email: undefined, // Widget doesn't have email field
       packageName: bookingData.package,
       date: bookingData.date,
       time: bookingData.time,
-      message: bookingData.message,
+      message: bookingData.message || undefined,
+      form_completion_rate: '100%', // User completed the form
+      form_fields_filled: [
+        bookingData.name ? 'name' : null,
+        bookingData.phone ? 'phone' : null,
+        bookingData.date ? 'date' : null,
+        bookingData.time ? 'time' : null,
+        bookingData.package ? 'package' : null,
+        bookingData.message ? 'message' : null
+      ].filter(Boolean).join(','),
+      widget_type: 'floating_widget',
     });
     // Reset form
     setBookingData({
@@ -99,10 +111,16 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(whatsappUrl, '_blank');
     setShowQuickMessagesModal(false);
-    trackBooking({
-      source: 'WhatsAppButtonQuickMessage',
-      message,
-      phone: bookingData.phone,
+    // Track quick message with full message content
+    trackBookingCompleted({
+      source: 'whatsapp_widget_quick',
+      message: message,
+      quick_message_type: message.includes('free consultation') ? 'free_consultation' : 
+                         message.includes('pricing') ? 'pricing_inquiry' :
+                         message.includes('questions') ? 'general_questions' :
+                         message.includes('appointment') ? 'appointment_request' : 'other',
+      widget_type: 'quick_message',
+      form_completion_rate: '100%', // Quick message is instant completion
     });
   };
 
@@ -111,7 +129,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   };
 
   const openBookingForm = () => {
-    trackEvent('booking_modal_open', 'booking', 'WhatsAppButton');
+    trackWhatsAppOpened('whatsapp_widget');
     setShowBookingForm(true);
     setShowQuickMessagesModal(false);
   };
@@ -133,7 +151,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
                 type="button"
                 className="text-white hover:text-gray-200 transition-colors"
                 onClick={() => {
-                  trackEvent('booking_cancel', 'booking', 'WhatsAppButton');
+                  trackBookingAbandoned('whatsapp_widget', 'modal_close');
                   setShowBookingForm(false);
                 }}
               >
@@ -264,7 +282,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
                 rel="noopener noreferrer"
                 className="w-full mt-3 py-3 px-4 rounded-lg font-semibold text-blue-600 bg-white border border-blue-200 shadow-sm hover:bg-blue-50 transition-colors flex items-center justify-center gap-2 text-sm text-center"
                 style={{ textDecoration: 'none' }}
-                onClick={() => trackEvent('form_fallback_click', 'booking', 'WhatsAppButton')}
+                onClick={() => trackFormOpened('whatsapp_widget')}
               >
                 No WhatsApp? Book via Google Form
               </a>
@@ -341,7 +359,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
               {/* Booking Form Button */}
               <button
                 onClick={() => {
-                  trackEvent('booking_intent', 'booking', 'WhatsAppButton');
+                  trackWhatsAppOpened('whatsapp_widget');
                   openBookingForm();
                 }}
                 className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"

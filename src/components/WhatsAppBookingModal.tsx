@@ -32,12 +32,27 @@ const WhatsAppBookingModal: React.FC<WhatsAppBookingModalProps & { onOpen?: () =
     message: ''
   });
 
+  const { trackBookingCompleted, trackFormOpened, trackBookingAbandoned, trackFormInteraction } = useAnalytics();
+
+  useEffect(() => {
+    if (isOpen && onOpen) onOpen();
+  }, [isOpen, onOpen]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setBookingData(prev => ({
-      ...prev,
+    const newData = {
+      ...bookingData,
       [name]: value
-    }));
+    };
+    setBookingData(newData);
+    
+    // Track form interaction with current form state
+    trackFormInteraction('whatsapp_booking_form', name, 'whatsapp_form', {
+      form_fields_filled: Object.keys(newData).filter(key => newData[key as keyof typeof newData] && String(newData[key as keyof typeof newData]).trim() !== '').length,
+      current_field: name,
+      current_value_length: value.length,
+      form_completion_percentage: Math.round((Object.keys(newData).filter(key => newData[key as keyof typeof newData] && String(newData[key as keyof typeof newData]).trim() !== '').length / 6) * 100),
+    });
   };
 
   // Check if all required fields are filled
@@ -63,26 +78,31 @@ const WhatsAppBookingModal: React.FC<WhatsAppBookingModalProps & { onOpen?: () =
     return encodeURIComponent(baseMessage + detailsText);
   };
 
-  const { trackBooking, trackEvent } = useAnalytics();
-
-  useEffect(() => {
-    if (isOpen && onOpen) onOpen();
-  }, [isOpen, onOpen]);
-
   const handleWhatsAppClick = () => {
     if (!isFormValid) return;
     
     const message = generateWhatsAppMessage();
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappUrl, '_blank');
-    // Track booking event in Google Analytics
-    trackBooking({
-      source: 'WhatsAppBookingModal',
+    // Track booking completion in Google Analytics with all form data
+    trackBookingCompleted({
+      source: 'whatsapp_form',
       name: bookingData.name,
       phone: bookingData.phone,
+      email: bookingData.email || undefined, // Include email if available
       packageName: bookingData.package,
       date: bookingData.date,
       time: bookingData.time,
+      message: bookingData.message || undefined, // Include additional message
+      form_completion_rate: '100%', // User completed the form
+      form_fields_filled: [
+        bookingData.name ? 'name' : null,
+        bookingData.phone ? 'phone' : null,
+        bookingData.date ? 'date' : null,
+        bookingData.time ? 'time' : null,
+        bookingData.package ? 'package' : null,
+        bookingData.message ? 'message' : null
+      ].filter(Boolean).join(','),
     });
     onClose();
     // Reset form
@@ -273,7 +293,7 @@ const WhatsAppBookingModal: React.FC<WhatsAppBookingModalProps & { onOpen?: () =
                     rel="noopener noreferrer"
                     className="mt-3 inline-flex w-full justify-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-blue-600 shadow-sm ring-1 ring-inset ring-blue-300 hover:bg-blue-50 sm:mt-0 sm:w-auto text-center border border-blue-200"
                     style={{ textDecoration: 'none' }}
-                    onClick={() => trackEvent('form_fallback_click', 'booking', 'WhatsAppBookingModal')}
+                    onClick={() => trackFormOpened('whatsapp_modal')}
                   >
                     No WhatsApp? Book via Google Form
                   </a>
@@ -281,7 +301,7 @@ const WhatsAppBookingModal: React.FC<WhatsAppBookingModalProps & { onOpen?: () =
                     type="button"
                     className="mt-3 inline-flex w-full justify-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                     onClick={() => {
-                      trackEvent('booking_cancel', 'booking', 'WhatsAppBookingModal');
+                      trackBookingAbandoned('whatsapp_modal', 'modal_close');
                       onClose();
                     }}
                   >

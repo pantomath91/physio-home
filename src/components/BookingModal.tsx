@@ -34,7 +34,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, selectedPa
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const { trackBooking } = useAnalytics();
+  const { trackBookingCompleted } = useAnalytics();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,13 +57,29 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, selectedPa
       const data = await response.json();
 
       if (response.ok) {
-        // Track booking event in Google Analytics
-        trackBooking({
-          source: 'BookingModal',
+        // Track booking completion in Google Analytics with all form data
+        trackBookingCompleted({
+          source: 'api_form',
           name: formData.name,
           phone: formData.phone,
           email: formData.email,
           packageName: selectedPackage?.name,
+          address: formData.address,
+          preferredDate: formData.preferredDate,
+          preferredTime: formData.preferredTime,
+          message: formData.message || undefined,
+          form_completion_rate: '100%', // User completed the form
+          form_fields_filled: [
+            formData.name ? 'name' : null,
+            formData.email ? 'email' : null,
+            formData.phone ? 'phone' : null,
+            formData.address ? 'address' : null,
+            formData.preferredDate ? 'preferredDate' : null,
+            formData.preferredTime ? 'preferredTime' : null,
+            formData.message ? 'message' : null,
+            selectedPackage?.name ? 'package' : null
+          ].filter(Boolean).join(','),
+          form_type: 'api_booking_form',
         });
         setSubmitStatus('success');
         setFormData({

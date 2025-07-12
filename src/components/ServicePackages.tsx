@@ -59,16 +59,11 @@ const packages: Package[] = [
 const ServicePackages: React.FC = () => {
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
-  const { trackBooking, trackEvent } = useAnalytics();
+  const { trackWhatsAppOpened, trackBookingStarted, trackFormOpened, trackBookingAbandoned } = useAnalytics();
 
   const handleBookNow = (pkg: Package) => {
-    trackEvent('booking_intent', 'booking', 'ServicePackages');
-    // Track intent to book
-    trackBooking({
-      source: 'ServicePackagesButton',
-      packageName: pkg.name,
-      action: 'open_booking_modal',
-    });
+    trackBookingStarted('service_package', pkg.name);
+    trackWhatsAppOpened('service_package');
     setSelectedPackage(pkg);
     setIsWhatsAppModalOpen(true);
   };
@@ -115,7 +110,7 @@ const ServicePackages: React.FC = () => {
             rel="noopener noreferrer"
             className="inline-block rounded-lg bg-white px-6 py-3 text-base font-semibold text-blue-600 shadow-sm ring-1 ring-inset ring-blue-300 hover:bg-blue-50 border border-blue-200 transition-colors mt-2"
             style={{ textDecoration: 'none' }}
-            onClick={() => trackEvent('form_fallback_click', 'booking', 'ServicePackages')}
+            onClick={() => trackFormOpened('service_package')}
           >
             No WhatsApp? Book via Google Form
           </a>
@@ -209,10 +204,9 @@ const ServicePackages: React.FC = () => {
       <WhatsAppBookingModal
         isOpen={isWhatsAppModalOpen}
         onClose={() => {
-          trackEvent('booking_cancel', 'booking', 'ServicePackages');
+          trackBookingAbandoned('service_package', 'modal_close');
           setIsWhatsAppModalOpen(false);
         }}
-        onOpen={() => trackEvent('booking_modal_open', 'booking', 'ServicePackages')}
         selectedPackage={selectedPackage ? { name: selectedPackage.name, price: selectedPackage.price } : undefined}
       />
     </section>
