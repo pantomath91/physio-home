@@ -28,7 +28,7 @@ const packages: Package[] = [
   },
   {
     name: 'Single Session',
-    price: '₹800',
+    price: '₹1000',
     description: 'Per session after first visit',
     features: [
       'One home visit',
@@ -40,10 +40,10 @@ const packages: Package[] = [
   },
   {
     name: 'Weekly Package',
-    price: '₹4,000',
-    description: '6 days of intensive treatment',
+    price: '₹4,800',
+    description: '5 days of intensive treatment',
     features: [
-      '6 home visits',
+      '5 home visits',
       'Comprehensive treatment plan',
       'Daily exercise program',
       'Customized diet plan',
@@ -91,7 +91,7 @@ const ServicePackages: React.FC = () => {
               <p className="text-xl mb-4">Your first home visit is completely FREE</p>
               <p className="text-lg opacity-90">
                 Experience our quality service with no obligation. After your free consultation, 
-                sessions are ₹800 each, or choose our weekly package starting at ₹4,000.
+                sessions are ₹1000 each, or choose our weekly package starting at ₹4,800.
               </p>
               <button
                 onClick={() => handleBookNow(packages[0])}
@@ -183,14 +183,14 @@ const ServicePackages: React.FC = () => {
               <div className="text-sm text-gray-600 mt-1">Home visit included</div>
             </div>
             <div className="p-4 border-r border-gray-200">
-              <div className="text-3xl font-bold text-gray-900 mb-2">₹800</div>
+              <div className="text-3xl font-bold text-gray-900 mb-2">₹1000</div>
               <div className="text-lg font-semibold text-gray-900">Per Session</div>
               <div className="text-sm text-gray-600 mt-1">After first visit</div>
             </div>
             <div className="p-4">
-              <div className="text-3xl font-bold text-blue-600 mb-2">₹4,000</div>
+              <div className="text-3xl font-bold text-blue-600 mb-2">₹4,800</div>
               <div className="text-lg font-semibold text-gray-900">Weekly Package</div>
-              <div className="text-sm text-gray-600 mt-1">6 sessions included</div>
+              <div className="text-sm text-gray-600 mt-1">5 sessions included</div>
             </div>
           </div>
         </div>

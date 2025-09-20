@@ -243,8 +243,8 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
                 >
                   <option value="">Select package</option>
                   <option value="Free Consultation">Free Consultation</option>
-                  <option value="Single Session (₹800)">Single Session (₹800)</option>
-                  <option value="Weekly Package (₹4000)">Weekly Package (₹4000)</option>
+                  <option value="Single Session (₹1000)">Single Session (₹1000)</option>
+                  <option value="Weekly Package (₹4800)">Weekly Package (₹4800)</option>
                 </select>
               </div>
               
