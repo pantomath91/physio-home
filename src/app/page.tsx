@@ -23,10 +23,14 @@ import FAQ from '@/components/FAQ';
 import ServicePackages from '@/components/ServicePackages';
 import Image from 'next/image';
 import { useAnalytics } from '@/hooks/useAnalytics';
+import { PackageCardShimmer, HighlightCardShimmer, ImageGridShimmer } from '@/components/Shimmer';
+import OptimizedImage from '@/components/OptimizedImage';
+import ImagePreloader from '@/components/ImagePreloader';
 
 export default function Home() {
   const { trackUserLanded, trackServiceInterest, trackPhoneClick } = useAnalytics();
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(true);
   const servicesRef = useRef(null);
   const benefitsRef = useRef(null);
   const aboutRef = useRef(null);
@@ -184,22 +188,117 @@ export default function Home() {
     },
   ];
 
-  // Track user landing on homepage
+  // Track user landing on homepage and simulate page loading
   useEffect(() => {
     trackUserLanded('/');
+    
+    // Simulate page loading for better UX demonstration
+    const timer = setTimeout(() => {
+      setIsPageLoading(false);
+    }, 2000); // 2 seconds loading time
+
+    return () => clearTimeout(timer);
   }, [trackUserLanded]);
+
+  if (isPageLoading) {
+    return (
+      <div className="relative">
+        {/* Hero Section Shimmer */}
+        <div className="relative isolate overflow-hidden bg-gray-100">
+          <div className="mx-auto max-w-7xl pb-24 pt-10 sm:pb-32 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-40">
+            <div className="px-6 lg:px-0 lg:pt-4">
+              <div className="mx-auto max-w-2xl">
+                <div className="max-w-lg">
+                  <div className="h-16 w-full bg-gray-200 rounded mb-6"></div>
+                  <div className="h-6 w-full bg-gray-200 rounded mb-4"></div>
+                  <div className="h-6 w-5/6 bg-gray-200 rounded mb-10"></div>
+                  <div className="h-10 w-48 bg-gray-200 rounded"></div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-16 sm:mt-24 lg:mt-0 lg:flex-shrink-0 lg:flex-grow">
+              <div className="relative mx-auto w-full max-w-sm rounded-2xl bg-gray-200 p-8">
+                <div className="h-32 w-full bg-gray-300 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Service Packages Shimmer */}
+        <div className="py-16 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <div className="h-10 w-80 bg-gray-200 rounded mx-auto mb-4"></div>
+              <div className="h-6 w-96 bg-gray-200 rounded mx-auto"></div>
+            </div>
+
+            {/* 6-Day Package Highlight Shimmer */}
+            <div className="mt-12 max-w-4xl mx-auto">
+              <HighlightCardShimmer />
+            </div>
+
+            {/* Free Consultation Highlight Shimmer */}
+            <div className="mt-8 max-w-4xl mx-auto">
+              <HighlightCardShimmer />
+            </div>
+
+            {/* Package Cards Shimmer */}
+            <div className="mt-12 max-w-6xl mx-auto grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {[...Array(4)].map((_, i) => (
+                <PackageCardShimmer key={i} />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Professional Care Images Shimmer */}
+        <div className="bg-white py-24 sm:py-32">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mx-auto max-w-2xl lg:text-center">
+              <div className="h-8 w-64 bg-gray-200 rounded mx-auto mb-4"></div>
+              <div className="h-6 w-96 bg-gray-200 rounded mx-auto"></div>
+            </div>
+            <ImageGridShimmer />
+          </div>
+        </div>
+
+        {/* Treatment Methods Images Shimmer */}
+        <div className="bg-white py-24 sm:py-32">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mx-auto max-w-2xl lg:text-center">
+              <div className="h-8 w-64 bg-gray-200 rounded mx-auto mb-4"></div>
+              <div className="h-6 w-96 bg-gray-200 rounded mx-auto"></div>
+            </div>
+            <ImageGridShimmer />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Critical images for preloading
+  const criticalImages = [
+    '/images/Physiotherapy (1).webp',
+    '/images/Physiotherapy (2).webp',
+    '/images/Physiotherapy (3).webp'
+  ];
 
   return (
     <div className="relative">
+      {/* Preload critical images */}
+      <ImagePreloader images={criticalImages} />
+      
       {/* Hero Section with Background Image */}
       <div className="relative isolate overflow-hidden bg-gradient-to-b from-blue-100/20">
         <div className="absolute inset-0 -z-10">
-          <Image
+          <OptimizedImage
             src="/images/Physiotherapy (1).webp"
             alt="Physiotherapy Background"
             fill
             className="object-cover opacity-20"
             priority
+            quality={60}
+            sizes="100vw"
           />
         </div>
         <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
@@ -284,11 +383,14 @@ export default function Home() {
                 className="flex flex-col p-2"
               >
                 <div className="relative h-80 w-80 overflow-hidden rounded-2xl">
-                  <Image
+                  <OptimizedImage
                     src={image.src}
                     alt={image.alt}
                     fill
                     className="object-cover"
+                    quality={85}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    placeholder="blur"
                   />
                 </div>
               </motion.div>
@@ -316,11 +418,14 @@ export default function Home() {
                 className="flex flex-col p-2"
               >
                 <div className="relative h-80 w-80 overflow-hidden rounded-2xl">
-                  <Image
+                  <OptimizedImage
                     src={image.src}
                     alt={image.alt}
                     fill
                     className="object-cover"
+                    quality={85}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    placeholder="blur"
                   />
                 </div>
               </motion.div>

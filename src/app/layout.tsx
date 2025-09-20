@@ -1,85 +1,101 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-import WhatsAppButton from "@/components/WhatsAppButton";
-import Script from "next/script";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+  variable: '--font-inter'
+});
 
 export const metadata: Metadata = {
-  title: "Physio Home Visit | Professional Physiotherapy Services at Your Doorstep",
-  description: "Expert physiotherapy services delivered to your home. Professional, convenient, and personalized care for your recovery and wellness needs.",
-  keywords: "physiotherapy, home physiotherapy, mobile physiotherapy, physiotherapist, home visit physio, rehabilitation, physical therapy",
-  authors: [{ name: "Physio Home Visit" }],
+  title: 'Professional Physiotherapy at Home | Expert Care in Your Comfort Zone',
+  description: 'Get expert physiotherapy treatment in the comfort of your home. Licensed professionals, personalized care, and comprehensive treatment plans. Book your free consultation today!',
+  keywords: 'physiotherapy, home visit, physiotherapist, rehabilitation, pain relief, exercise therapy, Bangalore, Haldwani, Ramnagar',
+  authors: [{ name: 'Physio Home Visit' }],
+  creator: 'Physio Home Visit',
+  publisher: 'Physio Home Visit',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://physio-home-visit.vercel.app'),
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
-    title: "Physio Home Visit | Professional Physiotherapy Services at Your Doorstep",
-    description: "Expert physiotherapy services delivered to your home. Professional, convenient, and personalized care for your recovery and wellness needs.",
-    type: "website",
-    locale: "en_US",
+    title: 'Professional Physiotherapy at Home | Expert Care in Your Comfort Zone',
+    description: 'Get expert physiotherapy treatment in the comfort of your home. Licensed professionals, personalized care, and comprehensive treatment plans.',
+    url: 'https://physio-home-visit.vercel.app',
+    siteName: 'Physio Home Visit',
+    images: [
+      {
+        url: '/images/Physiotherapy (1).webp',
+        width: 1200,
+        height: 630,
+        alt: 'Professional Physiotherapy at Home',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Professional Physiotherapy at Home | Expert Care in Your Comfort Zone',
+    description: 'Get expert physiotherapy treatment in the comfort of your home. Licensed professionals, personalized care, and comprehensive treatment plans.',
+    images: ['/images/Physiotherapy (1).webp'],
   },
   robots: {
     index: true,
     follow: true,
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   verification: {
-    google: "your-google-site-verification", // Replace with your actual verification code
+    google: 'your-google-verification-code',
   },
 };
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html suppressHydrationWarning>
+    <html lang="en" className={inter.variable}>
       <head>
-        {/* Google Tag Manager */}
-        <Script id="google-tag-manager" strategy="afterInteractive">
-          {`
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-WT6RBGHN');
-          `}
-        </Script>
-      </head>
-      <body className={`${inter.className} antialiased bg-gradient-to-br from-slate-50 via-white to-blue-50 min-h-screen`} suppressHydrationWarning>
-        {/* Google Tag Manager (noscript) */}
-        <noscript>
-          <iframe 
-            src="https://www.googletagmanager.com/ns.html?id=GTM-WT6RBGHN"
-            height="0" 
-            width="0" 
-            style={{display: 'none', visibility: 'hidden'}}
-          />
-        </noscript>
-        {/* End Google Tag Manager (noscript) */}
+        {/* Preconnect to external domains */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
-        <div className="relative">
-          {/* Background decorative elements */}
-          <div className="absolute inset-0 -z-10 overflow-hidden">
-            <div className="absolute -top-40 -right-40 transform translate-x-1/2 translate-y-1/2 rotate-12">
-              <div className="w-[500px] h-[500px] rounded-full bg-gradient-to-r from-slate-100 to-blue-100 opacity-40 blur-3xl" />
-            </div>
-            <div className="absolute -bottom-40 -left-40 transform -translate-x-1/2 -translate-y-1/2 -rotate-12">
-              <div className="w-[500px] h-[500px] rounded-full bg-gradient-to-r from-blue-100 to-slate-100 opacity-40 blur-3xl" />
-            </div>
-          </div>
-          <Navigation />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <Footer />
-          <WhatsAppButton />
-        </div>
+        {/* DNS prefetch for performance */}
+        <link rel="dns-prefetch" href="//wa.me" />
+        <link rel="dns-prefetch" href="//docs.google.com" />
+        
+        {/* Favicon and icons */}
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        
+        {/* Theme color */}
+        <meta name="theme-color" content="#3b82f6" />
+        <meta name="msapplication-TileColor" content="#3b82f6" />
+      </head>
+      <body className={`${inter.className} antialiased`}>
+        <Navigation />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );
