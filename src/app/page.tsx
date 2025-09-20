@@ -25,6 +25,7 @@ import Image from 'next/image';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { PackageCardShimmer, HighlightCardShimmer, ImageGridShimmer } from '@/components/Shimmer';
 import OptimizedImage from '@/components/OptimizedImage';
+import BasicImage from '@/components/BasicImage';
 import ImagePreloader from '@/components/ImagePreloader';
 
 export default function Home() {
@@ -35,11 +36,15 @@ export default function Home() {
   const benefitsRef = useRef(null);
   const aboutRef = useRef(null);
   const contactRef = useRef(null);
+  const imagesRef = useRef(null);
+  const treatmentImagesRef = useRef(null);
 
   const isServicesInView = useInView(servicesRef, { once: true });
   const isBenefitsInView = useInView(benefitsRef, { once: true });
   const isAboutInView = useInView(aboutRef, { once: true });
   const isContactInView = useInView(contactRef, { once: true });
+  const isImagesInView = useInView(imagesRef, { once: true });
+  const isTreatmentImagesInView = useInView(treatmentImagesRef, { once: true });
 
   const services = [
     {
@@ -291,7 +296,7 @@ export default function Home() {
       {/* Hero Section with Background Image */}
       <div className="relative isolate overflow-hidden bg-gradient-to-b from-blue-100/20">
         <div className="absolute inset-0 -z-10">
-          <OptimizedImage
+          <BasicImage
             src="/images/Physiotherapy (1).webp"
             alt="Physiotherapy Background"
             fill
@@ -362,7 +367,7 @@ export default function Home() {
       <ServicePackages />
 
       {/* Real Images Showcase */}
-      <div className="bg-white py-24 sm:py-32">
+      <div ref={imagesRef} className="bg-white py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-blue-600">Our Practice</h2>
@@ -378,19 +383,18 @@ export default function Home() {
               <motion.div
                 key={image.src}
                 initial={{ opacity: 0, y: 20 }}
-                animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
                 className="flex flex-col p-2"
               >
-                <div className="relative h-80 w-80 overflow-hidden rounded-2xl">
-                  <OptimizedImage
+                <div className="relative h-80 w-80 overflow-hidden rounded-2xl bg-gray-100">
+                  <BasicImage
                     src={image.src}
                     alt={image.alt}
                     fill
                     className="object-cover"
                     quality={85}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    placeholder="blur"
                   />
                 </div>
               </motion.div>
@@ -400,7 +404,7 @@ export default function Home() {
       </div>
 
       {/* Treatment Images Section */}
-      <div className="bg-white py-24 sm:py-32">
+      <div ref={treatmentImagesRef} className="bg-white py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-blue-600">Our Approach</h2>
@@ -413,19 +417,18 @@ export default function Home() {
               <motion.div
                 key={image.src}
                 initial={{ opacity: 0, y: 20 }}
-                animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
                 className="flex flex-col p-2"
               >
-                <div className="relative h-80 w-80 overflow-hidden rounded-2xl">
-                  <OptimizedImage
+                <div className="relative h-80 w-80 overflow-hidden rounded-2xl bg-gray-100">
+                  <BasicImage
                     src={image.src}
                     alt={image.alt}
                     fill
                     className="object-cover"
                     quality={85}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    placeholder="blur"
                   />
                 </div>
               </motion.div>
@@ -442,7 +445,7 @@ export default function Home() {
               <motion.div
                 key={stat.id}
                 initial={{ opacity: 0, y: 20 }}
-                animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
                 className="mx-auto flex max-w-xs flex-col gap-y-4"
               >
@@ -474,7 +477,7 @@ export default function Home() {
                 <motion.div
                   key={service.name}
                   initial={{ opacity: 0, y: 20 }}
-                  animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                   className="flex flex-col"
                 >
@@ -507,7 +510,7 @@ export default function Home() {
                 <motion.div
                   key={certification.name}
                   initial={{ opacity: 0, y: 20 }}
-                  animate={isServicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                   className="flex flex-col bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200"
                 >

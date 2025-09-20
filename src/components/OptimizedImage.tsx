@@ -29,7 +29,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   priority = false,
   quality = 85,
   sizes,
-  placeholder = 'blur',
+  placeholder = 'empty',  
   blurDataURL,
   onLoad,
   onError,
@@ -51,22 +51,30 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   // Generate optimized blur data URL
   const generateBlurDataURL = (w: number, h: number) => {
     if (typeof window === 'undefined') return '';
-    const canvas = document.createElement('canvas');
-    canvas.width = w;
-    canvas.height = h;
-    const ctx = canvas.getContext('2d');
-    if (ctx) {
-      const gradient = ctx.createLinearGradient(0, 0, w, h);
-      gradient.addColorStop(0, '#f3f4f6');
-      gradient.addColorStop(0.5, '#e5e7eb');
-      gradient.addColorStop(1, '#f3f4f6');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, w, h);
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        const gradient = ctx.createLinearGradient(0, 0, w, h);
+        gradient.addColorStop(0, '#f3f4f6');
+        gradient.addColorStop(0.5, '#e5e7eb');
+        gradient.addColorStop(1, '#f3f4f6');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, w, h);
+      }
+      return canvas.toDataURL();
+    } catch (error) {
+      console.warn('Failed to generate blur data URL:', error);
+      return '';
     }
-    return canvas.toDataURL();
   };
 
-  const defaultBlurDataURL = blurDataURL || generateBlurDataURL(400, 300);
+  // Use a simple base64 blur data URL as fallback
+  const fallbackBlurDataURL = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==';
+  
+  const defaultBlurDataURL = blurDataURL || fallbackBlurDataURL;
 
   return (
     <div className={`relative ${fill ? 'w-full h-full' : ''} ${className}`}>
@@ -102,7 +110,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
           sizes={sizes}
           placeholder={placeholder}
           blurDataURL={placeholder === 'blur' ? defaultBlurDataURL : undefined}
-          className={`transition-opacity duration-500 ${
+          className={`transition-opacity duration-300 ${
             !isLoading ? 'opacity-100' : 'opacity-0'
           } ${className}`}
           onLoad={handleLoad}
