@@ -89,7 +89,6 @@ const WhatsAppBookingModal: React.FC<WhatsAppBookingModalProps & { onOpen?: () =
       source: 'whatsapp_form',
       name: bookingData.name,
       phone: bookingData.phone,
-      email: bookingData.email || undefined, // Include email if available
       packageName: bookingData.package,
       date: bookingData.date,
       time: bookingData.time,
